@@ -6,32 +6,11 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:35:52 by lyoung            #+#    #+#             */
-/*   Updated: 2017/03/12 09:51:05 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/06 14:17:19 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int		count_words(const char *s, char c)
-{
-	int		count;
-	int		in_sub;
-
-	count = 0;
-	in_sub = 0;
-	while (*s)
-	{
-		if (*s == c && in_sub == 1)
-			in_sub = 0;
-		if (*s != c && in_sub == 0)
-		{
-			in_sub = 1;
-			count++;
-		}
-		s++;
-	}
-	return (count);
-}
 
 static int		count_letters(const char *s, char c)
 {

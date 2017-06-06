@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 10:33:17 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/06 13:23:46 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/06 14:17:04 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char				*ft_strjoin(const char *s1, const char *s2);
 char				*ft_strnjoin(const char *s1, const char *s2, size_t n);
 char				*ft_strtrim(const char *s);
 char				**ft_strsplit(const char *s, char c);
+int					count_words(const char *s, char c);
 
 /*
 ** --------------- Is Functions ---------------

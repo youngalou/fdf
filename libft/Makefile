@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/27 10:39:14 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/06 13:18:58 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/06 14:17:58 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ LIBFT = ft_putchar.c \
 	   ft_strnjoin.c \
 	   ft_strtrim.c \
 	   ft_strsplit.c \
+	   count_words.c \
 	   ft_isalpha.c \
 	   ft_isdigit.c \
 	   ft_isalnum.c \
