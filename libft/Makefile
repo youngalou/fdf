@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/27 10:39:14 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/06 14:17:58 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/06 15:55:24 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,11 +96,11 @@ FILES = $(addprefix libft/, $(LIBFT)) \
 
 SRCS = $(addprefix src/, $(FILES))
 
-OBJS = *.o
+OBJS = *.o \
 
 all: $(NAME)
 
-$(NAME): $(SRCS)
+$(NAME):
 	@gcc $(CFLAG) -c $(SRCS)
 	@echo "\033[32m- object files created\033[0m"
 	@ar rc $(NAME) $(OBJS)
