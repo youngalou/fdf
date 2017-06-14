@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:33:44 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 12:42:18 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/14 15:50:10 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ typedef struct	s_env
 	int			win_x;
 	int			win_y;
 	double		scale;
-	int			x_scale;
-	int			y_scale;
+	double		x_scale;
+	double		y_scale;
 	int			x0;
 	int			y0;
+	double		zoom;
 	double		x_angle;
 	double		y_angle;
 	double		z_angle;
@@ -43,7 +44,7 @@ typedef struct	s_env
 	int			drawn;
 }				t_env;
 
-void	open_mlx(t_env *env);
+void	open_mlx(t_env *env, char *filename);
 void	draw_segment(t_env *env, int y, int x);
 void	determine_prev(t_env *env, int y, int x);
 void	vertical_line(t_env *env, int x0, int y0, int x1, int y1);
@@ -55,5 +56,6 @@ t_env	*init_env(void);
 void	wireframe(t_env *env);
 int		key_command(int key, t_env *env);
 void	reset_wireframe(t_env *env);
+void	set_scale(t_env *env);
 
 #endif

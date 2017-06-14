@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 12:43:21 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/14 15:45:20 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ t_env	*init_env(void)
 	env->length = 0;
 	env->width = 0;
 	env->map = 0;
+	env->win_x = 1200;
+	env->win_y = 1200;
 	env->scale = 0;
 	env->x_scale = 0;
 	env->y_scale = 0;
 	env->x0 = 0;
 	env->y0 = 0;
+	env->zoom = 0.25;
 	env->x_angle = 0.5;
 	env->y_angle = 0.5;
 	env->z_angle = 0;
@@ -71,13 +74,6 @@ void	set_map(t_env *env, int fd)
 	env->length = y;
 	env->width = count_words(*line, ' ');
 	env->map = (int**)malloc(sizeof(int**) * env->length);
-	env->scale = env->width / env->length;
-	env->x_scale = (400 * env->scale) / env->width;
-	env->y_scale = (400 * env->scale) / env->length;
-	env->x0 = (env->width / 2) * env->x_scale;
-	env->y0 = (env->length / 2) * env->y_scale;
-	//env->x_scale = 25;
-	//env->y_scale = 25;
 	y = 0;
 	while (y < env->length)
 	{
@@ -122,28 +118,38 @@ int		key_command(int key, t_env *env)
 	{
 		if (key == 24)
 		{
+			env->zoom *= 2;
 			env->x_scale = env->x_scale * 2;
 			env->y_scale = env->y_scale * 2;
 		}
-		if (key == 27 && env->x_scale / 2 > 0 && env->y_scale / 2 > 0)
+		if (key == 27)
 		{
+			env->zoom /= 2;
 			env->x_scale = env->x_scale / 2;
 			env->y_scale = env->y_scale / 2;
 		}
 		wireframe(env);
 	}
 	if (key == 48)
-		reset_wireframe(env);
+	{
+		set_scale(env);
+		wireframe(env);
+	}
 	return (0);
 }
 
-void	reset_wireframe(t_env *env)
+void	set_scale(t_env *env)
 {
-	env->x_scale = (400 * env->scale) / env->width;
-	env->y_scale = (400 * env->scale) / env->length;
-	env->x0 = (env->width / 2) * env->x_scale;
-	env->y0 = (env->length / 2) * env->y_scale;
-	wireframe(env);
+	env->scale = env->width / env->length;
+	if (env->scale > 1)
+		env->win_y = env->win_x / env->scale;
+	else
+		env->win_x = env->win_y * env->scale;
+	env->x_scale = (env->win_x / env->width) / 4;
+	env->y_scale = (env->win_y / env->length) / 4;
+	env->x0 = (env->win_x / 2);
+	env->y0 = (env->win_y / 2);
+	env->zoom = 0.25;
 }
 
 void	wireframe(t_env *env)
@@ -151,7 +157,7 @@ void	wireframe(t_env *env)
 	int		y;
 	int		x;
 
-	if (env->drawn == 1)
+	if (env->drawn)
 	{
 		mlx_clear_window(env->mlx, env->win);
 		env->drawn = 0;
@@ -170,15 +176,11 @@ void	wireframe(t_env *env)
 	env->drawn = 1;
 }
 
-void	open_mlx(t_env *env)
+void	open_mlx(t_env *env, char *filename)
 {
-	int		y;
-	int		x;
-	int		color;
-
 	env->mlx = mlx_init();
-	//env->win = mlx_new_window(env->mlx, (env->width * env->x_scale) + env->x_scale, (env->length * env->y_scale) + env->y_scale, "Fdf Window");
-	env->win = mlx_new_window(env->mlx, 1200, 1200, "Fdf Window");
+	set_scale(env);
+	env->win = mlx_new_window(env->mlx, env->win_x, env->win_y, filename);
 	wireframe(env);
 	mlx_key_hook(env->win, key_command, env);
 	mlx_loop(env->mlx);
@@ -198,6 +200,6 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	set_map(env, fd);
 	//print_array(env);
-	open_mlx(env);
+	open_mlx(env, argv[1]);
 	return (0);
 }
