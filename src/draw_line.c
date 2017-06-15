@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/14 10:21:55 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 15:10:49 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/14 17:03:18 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,15 @@ void	determine_prev(t_env *env, int y, int x)
 	env->vprev_x = (vprev_x * (cos(env->y_angle) * cos(env->z_angle))) - (vprev_y * (cos(env->y_angle) * sin(env->z_angle))) + (env->map[(y > 0) ? y - 1 : y][x] * sin(env->y_angle));
 }*/
 
+void	color_select(t_env *env, int y, int x, int hv)
+{
+	env->color = 0xffffff - (env->map[y][x] * 5000);
+	if (env->map[(y > 0) ? y - 1 : y][x] && hv == 2)
+		env->color = 0xffffff - (env->map[(y > 0) ? y - 1 : y][x] * 5000);
+	else if (env->map[y][(x > 0) ? x - 1 : x] && hv == 1)
+		env->color = 0xffffff - (env->map[y][(x > 0) ? x - 1 : x] * 5000);
+}
+
 void	draw_segment(t_env *env, int y, int x)
 {
 	int		y_place;
@@ -119,10 +128,10 @@ void	draw_segment(t_env *env, int y, int x)
 	env->hprev_y = env->hprev_y + env->y0;
 	env->vprev_x = env->vprev_x + env->x0;
 	env->vprev_y = env->vprev_y + env->y0;
-	env->color = ((env->map[y][x] == 0 || env->map[y][x - 1] == 0) ? 0xffffff : 0x7fff00);
+	color_select(env, y, x, 1);
 	if (x > 0)
 		horizontal_line(env, x_place, y_place, env->hprev_x, env->hprev_y);
-	env->color = ((env->map[y][x] == 0 || env->map[y - 1][x] == 0) ? 0xffffff : 0x7fff00);
+	color_select(env, y, x, 2);
 	if (y > 0)
 		vertical_line(env, x_place, y_place, env->vprev_x, env->vprev_y);
 }

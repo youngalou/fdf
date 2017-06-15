@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 15:45:20 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/14 16:18:23 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	populate_row(t_env *env, char *line, int y)
 		env->map[y][x] = ft_atoi(line);
 		while (*line >= '0' && *line <= '9')
 			line++;
-		while (*line == ' ')
+		while (*line == ' ' || *line == '\t')
 			line++;
 		x++;
 	}
@@ -112,6 +112,14 @@ int		key_command(int key, t_env *env)
 		(key == 1) ? env->y0 += env->y_scale : 0;
 		(key == 0) ? env->x0 -= env->x_scale : 0;
 		(key == 2) ? env->x0 += env->x_scale : 0;
+		wireframe(env);
+	}
+	if (key == 34 || (key >= 37 && key <= 40))
+	{
+		(key == 34) ? env->y0 -= env->y_scale * 10 : 0;
+		(key == 40) ? env->y0 += env->y_scale * 10 : 0;
+		(key == 38) ? env->x0 -= env->x_scale * 10 : 0;
+		(key == 37) ? env->x0 += env->x_scale * 10 : 0;;
 		wireframe(env);
 	}
 	if (key == 24 || key == 27)
