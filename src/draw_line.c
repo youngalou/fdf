@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/14 10:21:55 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/16 12:53:19 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 13:01:55 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void	determine_prev(t_env *env, int y, int x)
 
 void	color_select(t_env *env, int y, int x, int hv)
 {
-	env->color = 0xffffff - (env->map[y][x] * 5000);
+	env->color = env->color0 - (env->map[y][x] * 5000);
 	if (env->map[(y > 0) ? y - 1 : y][x] && hv == 2)
-		env->color = 0xffffff - (env->map[(y > 0) ? y - 1 : y][x] * 5000);
+		env->color = env->color0 - (env->map[(y > 0) ? y - 1 : y][x] * 5000);
 	else if (env->map[y][(x > 0) ? x - 1 : x] && hv == 1)
-		env->color = 0xffffff - (env->map[y][(x > 0) ? x - 1 : x] * 5000);
+		env->color = env->color0 - (env->map[y][(x > 0) ? x - 1 : x] * 5000);
 }
 
 void	draw_segment(t_env *env, int y, int x)

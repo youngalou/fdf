@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/16 12:53:36 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 14:45:20 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_env	*init_env(void)
 	env->hprev_y = 0;
 	env->vprev_x = 0;
 	env->vprev_y = 0;
+	env->color0 = 16777215;
 	env->color = 0;
 	env->drawn = 0;
 	return (env);
@@ -153,6 +154,20 @@ int		key_command(int key, t_env *env)
 			env->y_scale = env->y_scale / 2;
 			env->z_scale = env->z_scale / 2;
 		}
+		wireframe(env);
+	}
+	if (key >= 82 && key <= 92)
+	{
+		(key == 82) ? env->color0 = 16777215 : 0;
+		(key == 83) ? env->color0 = 1283748 : 0;
+		(key == 84) ? env->color0 = 14554898 : 0;
+		(key == 85) ? env->color0 = 15524880 : 0;
+		(key == 86) ? env->color0 = 12345678 : 0;
+		(key == 87) ? env->color0 = 1111111 : 0;
+		(key == 88) ? env->color0 = 14988716 : 0;
+		(key == 89) ? env->color0 = 21701798 : 0;
+		(key == 91) ? env->color0 = 8978117 : 0;
+		(key == 92) ? env->color0 = 6737033 : 0;
 		wireframe(env);
 	}
 	if (key == 48)

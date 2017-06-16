@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:33:44 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/16 12:37:08 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 13:02:22 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct	s_env
 	int			vprev_x;
 	int			vprev_y;
 	int			color;
+	int			color0;
 	int			drawn;
 }				t_env;
 
