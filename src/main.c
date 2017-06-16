@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/16 12:27:18 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 12:53:36 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,10 @@ void	set_scale(t_env *env)
 		env->win_x = env->win_y * env->scale;
 	env->x_scale = (env->win_x / env->width) / 2;
 	env->y_scale = (env->win_y / env->length) / 2;
-	env->z_scale = 1;
+	env->z_scale = 2;
 	env->x0 = (env->win_x / 2);
 	env->y0 = (env->win_y / 2);
-	env->zoom = .25;
+	env->zoom = .5;
 	env->ax = .7854;
 	env->ay = .6982;
 	env->az = .0524;

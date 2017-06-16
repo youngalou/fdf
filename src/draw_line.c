@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/14 10:21:55 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/16 12:13:46 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 12:53:19 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ void	determine_prev(t_env *env, int y, int x)
    	env->hprev_y = ((y * env->y_scale) + (env->y0 - (env->zoom * env->y0))) - env->y0;
 	rotate_hprev(env, env->map[y][(x > 0) ? x - 1 : x] * env->z_scale);
 	rotate_vprev(env, env->map[(y > 0) ? y - 1 : y][x] * env->z_scale);
-	//env->vprev_y = env->vprev_x + (2 * env->vprev_y) + env->map[(y > 0) ? y - 1 : y][x];
-	//env->hprev_y = env->hprev_x + (2 * env->hprev_y) + env->map[y][(x > 0) ? x - 1 : x];
-	//env->hprev_x = (sqrt(3) * env->hprev_x) - (sqrt(3) * env->map[y][(x > 0) ? x - 1 : x]);
-	//env->vprev_x = (sqrt(3) * env->vprev_x) - (sqrt(3) * env->map[(y > 0) ? y - 1 : y][x]);
 }
 
 void	color_select(t_env *env, int y, int x, int hv)
@@ -86,8 +82,6 @@ void	draw_segment(t_env *env, int y, int x)
 	env->x_place = (x * env->x_scale + (env->x0 - (env->zoom * env->x0))) - env->x0;
 	env->y_place = (y * env->y_scale + (env->y0 - (env->zoom * env->y0))) - env->y0;
 	rotate(env, env->map[y][x] * env->z_scale);
-	//y_place = x_place + (2 * y_place) + env->map[y][x];
-	//x_place = (sqrt(3) * x_place) - (sqrt(3) * env->map[y][x]);
 	determine_prev(env, y, x);
 	env->x_place = (env->x_place + env->x0);
 	env->y_place = (env->y_place + env->y0);
