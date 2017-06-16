@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 16:18:23 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 12:27:18 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,18 @@ t_env	*init_env(void)
 	env->map = 0;
 	env->win_x = 1200;
 	env->win_y = 1200;
-	env->scale = 0;
-	env->x_scale = 0;
-	env->y_scale = 0;
-	env->x0 = 0;
-	env->y0 = 0;
-	env->zoom = 0.25;
-	env->x_angle = 0.5;
-	env->y_angle = 0.5;
-	env->z_angle = 0;
+	env->scale = 1;
+	env->x_scale = 20;
+	env->y_scale = 20;
+	env->z_scale = 1;
+	env->x0 = 600;
+	env->y0 = 600;
+	env->zoom = .25;
+	env->ax = .7854;
+	env->ay = .6982;
+	env->az = .0524;
+	env->x_place = 0;
+	env->y_place = 0;
 	env->hprev_x = 0;
 	env->hprev_y = 0;
 	env->vprev_x = 0;
@@ -54,6 +57,10 @@ void	populate_row(t_env *env, char *line, int y)
 	{
 		env->map[y][x] = ft_atoi(line);
 		while (*line >= '0' && *line <= '9')
+			line++;
+		if (*line == ',')
+			env->color = ft_atoi_base(++line, 16);
+		while ((*line >= '0' && *line <= '9') || *line == 'x')
 			line++;
 		while (*line == ' ' || *line == '\t')
 			line++;
@@ -106,6 +113,14 @@ int		key_command(int key, t_env *env)
 	//ft_printf("%d\n", key);
 	if (key == 53)
 		exit(0);
+	if (key >= 123 && key <= 126)
+	{
+		(key == 126) ? env->ay += .25 : 0;
+		(key == 125) ? env->ay -= .25 : 0;
+		(key == 123) ? env->ax += .25 : 0;
+		(key == 124) ? env->ax -= .25 : 0;
+		wireframe(env);
+	}
 	if (key == 13 || (key >= 0 && key <= 2))
 	{
 		(key == 13) ? env->y0 -= env->y_scale : 0;
@@ -129,12 +144,14 @@ int		key_command(int key, t_env *env)
 			env->zoom *= 2;
 			env->x_scale = env->x_scale * 2;
 			env->y_scale = env->y_scale * 2;
+			env->z_scale = env->z_scale * 2;
 		}
 		if (key == 27)
 		{
 			env->zoom /= 2;
 			env->x_scale = env->x_scale / 2;
 			env->y_scale = env->y_scale / 2;
+			env->z_scale = env->z_scale / 2;
 		}
 		wireframe(env);
 	}
@@ -153,11 +170,15 @@ void	set_scale(t_env *env)
 		env->win_y = env->win_x / env->scale;
 	else
 		env->win_x = env->win_y * env->scale;
-	env->x_scale = (env->win_x / env->width) / 4;
-	env->y_scale = (env->win_y / env->length) / 4;
+	env->x_scale = (env->win_x / env->width) / 2;
+	env->y_scale = (env->win_y / env->length) / 2;
+	env->z_scale = 1;
 	env->x0 = (env->win_x / 2);
 	env->y0 = (env->win_y / 2);
-	env->zoom = 0.25;
+	env->zoom = .25;
+	env->ax = .7854;
+	env->ay = .6982;
+	env->az = .0524;
 }
 
 void	wireframe(t_env *env)

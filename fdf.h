@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:33:44 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 15:50:10 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 12:01:11 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <math.h>
 # include "libft/superlibft.h"
 # include "minilibx/mlx.h"
+
+typedef struct	s_map
+{
+	int			x;
+	int			y;
+	int			z;
+}				t_map;
 
 typedef struct	s_env
 {
@@ -30,12 +37,15 @@ typedef struct	s_env
 	double		scale;
 	double		x_scale;
 	double		y_scale;
+	double		z_scale;
 	int			x0;
 	int			y0;
 	double		zoom;
-	double		x_angle;
-	double		y_angle;
-	double		z_angle;
+	double		ax;
+	double		ay;
+	double		az;
+	int			x_place;
+	int			y_place;
 	int			hprev_x;
 	int			hprev_y;
 	int			vprev_x;
@@ -57,5 +67,8 @@ void	wireframe(t_env *env);
 int		key_command(int key, t_env *env);
 void	reset_wireframe(t_env *env);
 void	set_scale(t_env *env);
+void	rotate(t_env *env, int z);
+void	rotate_hprev(t_env *env, int z);
+void	rotate_vprev(t_env *env, int z);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/14 10:21:55 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/14 17:03:18 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/16 12:13:46 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,50 +58,19 @@ void	vertical_line(t_env *env, int x0, int y0, int x1, int y1)
 	}
 }
 
-/*void	draw_2D_segment(t_env *env, int y, int x)
-{
-	int		y_place;
-	int		x_place;
-	
-	y_place = (y * env->y_scale) + env->y_scale;
-	x_place = (x * env->x_scale) + env->x_scale;
-	env->color = ((env->map[y][x] == 0 || env->map[y][x - 1] == 0) ? 0xffffff : 0x7fff00);
-	if (x > 0)
-		horizontal_line(env, x_place, y_place, ((x - 1) * env->x_scale) + env->x_scale, (y * env->y_scale) + env->y_scale);
-	env->color = ((env->map[y][x] == 0 || env->map[y - 1][x] == 0) ? 0xffffff : 0x7fff00);
-	if (y > 0)
-		vertical_line(env, x_place, y_place, (x * env->x_scale) + env->x_scale, ((y - 1) * env->y_scale) + env->y_scale);
-}*/
-
 void	determine_prev(t_env *env, int y, int x)
 {
    	env->hprev_x = (((x - 1) * env->x_scale) + (env->x0 - (env->zoom * env->x0))) - env->x0;
    	env->vprev_x = ((x * env->x_scale) + (env->x0 - (env->zoom * env->x0))) - env->x0;
    	env->vprev_y = (((y - 1) * env->y_scale) + (env->y0 - (env->zoom * env->y0))) - env->y0;
    	env->hprev_y = ((y * env->y_scale) + (env->y0 - (env->zoom * env->y0))) - env->y0;
-	env->vprev_y = env->vprev_x + (2 * env->vprev_y) + env->map[(y > 0) ? y - 1 : y][x];
-	env->hprev_y = env->hprev_x + (2 * env->hprev_y) + env->map[y][(x > 0) ? x - 1 : x];
-	env->hprev_x = (sqrt(3) * env->hprev_x) - (sqrt(3) * env->map[y][(x > 0) ? x - 1 : x]);
-	env->vprev_x = (sqrt(3) * env->vprev_x) - (sqrt(3) * env->map[(y > 0) ? y - 1 : y][x]);
+	rotate_hprev(env, env->map[y][(x > 0) ? x - 1 : x] * env->z_scale);
+	rotate_vprev(env, env->map[(y > 0) ? y - 1 : y][x] * env->z_scale);
+	//env->vprev_y = env->vprev_x + (2 * env->vprev_y) + env->map[(y > 0) ? y - 1 : y][x];
+	//env->hprev_y = env->hprev_x + (2 * env->hprev_y) + env->map[y][(x > 0) ? x - 1 : x];
+	//env->hprev_x = (sqrt(3) * env->hprev_x) - (sqrt(3) * env->map[y][(x > 0) ? x - 1 : x]);
+	//env->vprev_x = (sqrt(3) * env->vprev_x) - (sqrt(3) * env->map[(y > 0) ? y - 1 : y][x]);
 }
-
-/*void	determine_prev(t_env *env, int y, int x)
-{
-	int		hprev_x;
-	int		hprev_y;
-	int		vprev_x;
-	int		vprev_y;
-
-   	hprev_x = ((x - 1) * env->x_scale) + env->x_scale;
-   	vprev_x = (x * env->x_scale) + env->x_scale;
-
-	vprev_y = ((y - 1) * env->y_scale) + env->y_scale;
-	hprev_y = ((y) * env->y_scale) + env->y_scale;
-	env->hprev_x = (hprev_x * (cos(env->y_angle) * cos(env->z_angle))) - (hprev_y * (cos(env->y_angle) * sin(env->z_angle))) + (env->map[y][(x > 0) ? x - 1 : x] * sin(env->y_angle));
-	env->hprev_y = (hprev_x * (sin(env->x_angle) * cos(env->y_angle) * cos(env->z_angle)) + (cos(env->x_angle) * sin(env->z_angle))) + (hprev_y * (sin(env->x_angle) * sin(env->y_angle) * sin(env->z_angle)) + (cos(env->x_angle) * cos(env->z_angle))) - (env->map[y][(x > 0) ? x - 1 : x] * (cos(env->y_angle) * sin(env->x_angle)));
-	env->vprev_y = (vprev_x * (sin(env->x_angle) * cos(env->y_angle) * cos(env->z_angle)) + (cos(env->x_angle) * sin(env->z_angle))) + (vprev_y * (sin(env->x_angle) * sin(env->y_angle) * sin(env->z_angle)) + (cos(env->x_angle) * cos(env->z_angle))) - (env->map[(y > 0) ? y - 1: y][x] * (cos(env->y_angle) * sin(env->x_angle)));
-	env->vprev_x = (vprev_x * (cos(env->y_angle) * cos(env->z_angle))) - (vprev_y * (cos(env->y_angle) * sin(env->z_angle))) + (env->map[(y > 0) ? y - 1 : y][x] * sin(env->y_angle));
-}*/
 
 void	color_select(t_env *env, int y, int x, int hv)
 {
@@ -114,46 +83,55 @@ void	color_select(t_env *env, int y, int x, int hv)
 
 void	draw_segment(t_env *env, int y, int x)
 {
-	int		y_place;
-	int		x_place;
-
-	x_place = (x * env->x_scale + (env->x0 - (env->zoom * env->x0))) - env->x0;
-	y_place = (y * env->y_scale + (env->y0 - (env->zoom * env->y0))) - env->y0;
-	y_place = x_place + (2 * y_place) + env->map[y][x];
-	x_place = (sqrt(3) * x_place) - (sqrt(3) * env->map[y][x]);
+	env->x_place = (x * env->x_scale + (env->x0 - (env->zoom * env->x0))) - env->x0;
+	env->y_place = (y * env->y_scale + (env->y0 - (env->zoom * env->y0))) - env->y0;
+	rotate(env, env->map[y][x] * env->z_scale);
+	//y_place = x_place + (2 * y_place) + env->map[y][x];
+	//x_place = (sqrt(3) * x_place) - (sqrt(3) * env->map[y][x]);
 	determine_prev(env, y, x);
-	x_place = (x_place + env->x0);
-	y_place = (y_place + env->y0);
+	env->x_place = (env->x_place + env->x0);
+	env->y_place = (env->y_place + env->y0);
 	env->hprev_x = env->hprev_x + env->x0;
 	env->hprev_y = env->hprev_y + env->y0;
 	env->vprev_x = env->vprev_x + env->x0;
 	env->vprev_y = env->vprev_y + env->y0;
 	color_select(env, y, x, 1);
 	if (x > 0)
-		horizontal_line(env, x_place, y_place, env->hprev_x, env->hprev_y);
+		horizontal_line(env, env->x_place, env->y_place, env->hprev_x, env->hprev_y);
 	color_select(env, y, x, 2);
 	if (y > 0)
-		vertical_line(env, x_place, y_place, env->vprev_x, env->vprev_y);
+		vertical_line(env, env->x_place, env->y_place, env->vprev_x, env->vprev_y);
 }
 
-/*void	draw_segment(t_env *env, int y, int x)
+void	rotate(t_env *env, int z)
 {
-	int		y_place;
-	int		x_place;
-	int		y_new;
-	int		x_new;
-	
-	x_place = (x * env->x_scale) + env->x_scale;
-	y_place = (y * env->y_scale) + env->y_scale;
-	x_new = (x_place * (cos(env->y_angle) * cos(env->z_angle))) - (y_place * (cos(env->y_angle) * sin(env->z_angle))) + (env->map[y][x] * sin(env->y_angle));
-	y_new = (x_place * (sin(env->x_angle) * sin(env->y_angle) * cos(env->z_angle)) + (cos(env->x_angle) * sin(env->z_angle))) + (y_place * (sin(env->x_angle) * sin(env->y_angle) * sin(env->z_angle)) + (cos(env->x_angle) * cos(env->z_angle))) - (env->map[y][x] * (cos(env->y_angle) * sin(env->x_angle)));
-	determine_prev(env, y, x);
-	env->color = ((env->map[y][x] == 0 || env->map[y][x - 1] == 0) ? 0xffffff : 0x7fff00);
-	if (x > 0)
-		//mlx_pixel_put(env->mlx, env->win, x_new, y_new, env->color);
-		horizontal_line(env, x_new, y_new, env->hprev_x, env->hprev_y);
-	env->color = ((env->map[y][x] == 0 || env->map[y - 1][x] == 0) ? 0xffffff : 0x7fff00);
-	if (y > 0)
-		//mlx_pixel_put(env->mlx, env->win, x_new, y_new, env->color);
-		vertical_line(env, x_new, y_new, env->vprev_x, env->vprev_y);
-}*/
+	int		x_tmp;
+
+	x_tmp = env->x_place;
+	env->x_place = env->x_place * cos(env->ax) - env->y_place * sin(env->ax);
+	env->y_place = x_tmp * sin(env->ax) + env->y_place * cos(env->ax);
+	env->y_place = (env->y_place * cos(env->ay) - z * sin(env->ay));
+	env->x_place = env->x_place * cos(env->az) + z * sin(env->az);
+}
+
+void	rotate_hprev(t_env *env, int z)
+{
+	int		x_tmp;
+
+	x_tmp = env->hprev_x;
+	env->hprev_x = env->hprev_x * cos(env->ax) - env->hprev_y * sin(env->ax);
+	env->hprev_y = x_tmp * sin(env->ax) + env->hprev_y * cos(env->ax);
+	env->hprev_y = (env->hprev_y * cos(env->ay) - z * sin(env->ay));
+	env->hprev_x = env->hprev_x * cos(env->az) + z * sin(env->az);
+}
+
+void	rotate_vprev(t_env *env, int z)
+{
+	int		x_tmp;
+
+	x_tmp = env->vprev_x;
+	env->vprev_x = env->vprev_x * cos(env->ax) - env->vprev_y * sin(env->ax);
+	env->vprev_y = x_tmp * sin(env->ax) + env->vprev_y * cos(env->ax);
+	env->vprev_y = (env->vprev_y * cos(env->ay) - z * sin(env->ay));
+	env->vprev_x = env->vprev_x * cos(env->az) + z * sin(env->az);
+}
