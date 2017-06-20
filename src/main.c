@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/20 11:50:55 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/20 13:58:27 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf("%{red}Invalid # of arguments.%{eoc}\nusage:\t./fdf [map]\n");
+		ft_printf("%{red}Invalid # of arguments.%{eoc}\nUsage:\t./fdf <map>\n");
 		return (0);
 	}
 	env = init_env();
