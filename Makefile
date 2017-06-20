@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 13:21:13 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/20 13:53:34 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/20 14:24:06 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ clean:
 
 fclean: clean
 	@rm -f fdf
-	@make -C minilibx fclean
+	@make -C minilibx clean
 	@echo "\033[31m- libmlx.a removed\033[0m"
 	@make -C libft fclean
 
