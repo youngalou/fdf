@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/20 11:35:37 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/20 15:12:57 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 11:05:56 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,19 @@ void	set_map(t_env *env, int fd)
 {
 	char	**line;
 	int		y;
+	int		ret;
 
 	line = (char**)malloc(sizeof(char**) * UINT_MAX);
 	y = 0;
-	while (get_next_line(fd, &line[y]))
+	while ((ret = get_next_line(fd, &line[y])))
+	{
+		if (ret == -1)
+		{
+			ft_printf("%{red}Invalid map.%{eoc}\n");
+			exit(0);
+		}
 		y++;
+	}
 	env->length = y;
 	env->width = count_words(*line, ' ');
 	env->map = (int**)malloc(sizeof(int**) * env->length);
