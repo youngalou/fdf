@@ -22,6 +22,11 @@ typedef struct	s_env
 {
 	void		*mlx;
 	void		*win;
+	void		*img;
+	int			*pixels;
+	int 		bpp;
+	int 		sl;
+	int 		endian;
 	int			length;
 	int			width;
 	int			**map;

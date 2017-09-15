@@ -17,6 +17,9 @@ t_env	*init_env(void)
 	t_env	*env;
 
 	env = (t_env*)malloc(sizeof(t_env));
+	env->bpp = 4;
+	env->sl = 0;
+	env->endian = 0;
 	env->length = 0;
 	env->width = 0;
 	env->win_x = 1200;
@@ -39,6 +42,18 @@ t_env	*init_env(void)
 	return (env);
 }
 
+void	clear_pixels(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	while (i < (env->win_x * env->win_y))
+	{
+		env->pixels[i] = 0;
+		i++;
+	}
+}
+
 void	wireframe(t_env *env)
 {
 	int		y;
@@ -47,6 +62,7 @@ void	wireframe(t_env *env)
 	if (env->drawn)
 	{
 		mlx_clear_window(env->mlx, env->win);
+		clear_pixels(env);
 		env->drawn = 0;
 	}
 	y = 0;
@@ -60,6 +76,7 @@ void	wireframe(t_env *env)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	env->drawn = 1;
 }
 
@@ -68,6 +85,8 @@ void	open_mlx(t_env *env, char *filename)
 	env->mlx = mlx_init();
 	set_scale(env);
 	env->win = mlx_new_window(env->mlx, env->win_x, env->win_y, filename);
+	env->img = mlx_new_image(env->mlx, env->win_x, env->win_y);
+	env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
 	wireframe(env);
 	mlx_hook(env->win, 2, 0, key_command, env);
 	mlx_loop(env->mlx);

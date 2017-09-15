@@ -42,16 +42,16 @@ void	key_zoom(t_env *env, int key)
 		if (key == 24)
 		{
 			env->zoom *= 1.1;
-			env->x_scale = env->x_scale * 1.1;
-			env->y_scale = env->y_scale * 1.1;
-			env->z_scale = env->z_scale * 1.1;
+			env->x_scale *= 1.1;
+			env->y_scale *= 1.1;
+			env->z_scale *= 1.1;
 		}
 		if (key == 27)
 		{
 			env->zoom /= 1.1;
-			env->x_scale = env->x_scale / 1.1;
-			env->y_scale = env->y_scale / 1.1;
-			env->z_scale = env->z_scale / 1.1;
+			env->x_scale /= 1.1;
+			env->y_scale /= 1.1;
+			env->z_scale /= 1.1;
 		}
 		wireframe(env);
 	}

@@ -26,7 +26,8 @@ void	horizontal_line(t_env *env, int x0, int y0)
 	env->err = (dx > dy ? dx : -dy) / 2;
 	while (x0 != env->hprev_x)
 	{
-		mlx_pixel_put(env->mlx, env->win, x0, y0, env->color);
+		if (x0 >= 0 && x0 < 1200 && y0 >= 0 && y0 < 1200)
+			env->pixels[x0 + (y0 * env->win_x)] = env->color;
 		env->e2 = env->err;
 		if (env->e2 > -dx)
 		{
@@ -55,7 +56,8 @@ void	vertical_line(t_env *env, int x0, int y0)
 	env->err = (dx > dy ? dx : -dy) / 2;
 	while (y0 != env->vprev_y)
 	{
-		mlx_pixel_put(env->mlx, env->win, x0, y0, env->color);
+		if (x0 >= 0 && x0 < 1200 && y0 >= 0 && y0 < 1200)
+			env->pixels[x0 + (y0 * env->win_x)] = env->color;
 		env->e2 = env->err;
 		if (env->e2 > -dx)
 		{
@@ -101,12 +103,12 @@ void	draw_segment(t_env *env, int y, int x)
 					(env->y0 - (env->zoom * env->y0))) - env->y0;
 	rotate(env, env->map[y][x] * env->z_scale);
 	determine_prev(env, y, x);
-	env->x_place = env->x_place + env->x0;
-	env->y_place = env->y_place + env->y0;
-	env->hprev_x = env->hprev_x + env->x0;
-	env->hprev_y = env->hprev_y + env->y0;
-	env->vprev_x = env->vprev_x + env->x0;
-	env->vprev_y = env->vprev_y + env->y0;
+	env->x_place += env->x0;
+	env->y_place += env->y0;
+	env->hprev_x += env->x0;
+	env->hprev_y += env->y0;
+	env->vprev_x += env->x0;
+	env->vprev_y += env->y0;
 	color_select(env, y, x, 1);
 	if (x > 0)
 		horizontal_line(env, env->x_place, env->y_place);
