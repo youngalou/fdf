@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/20 11:21:20 by lyoung            #+#    #+#             */
-/*   Updated: 2017/09/15 11:48:48 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:55:35 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ void	key_zoom(t_env *env, int key)
 	{
 		if (key == 24)
 		{
-			env->zoom *= 2;
-			env->x_scale = env->x_scale * 2;
-			env->y_scale = env->y_scale * 2;
-			env->z_scale = env->z_scale * 2;
+			env->zoom *= 1.1;
+			env->x_scale = env->x_scale * 1.1;
+			env->y_scale = env->y_scale * 1.1;
+			env->z_scale = env->z_scale * 1.1;
 		}
 		if (key == 27)
 		{
-			env->zoom /= 2;
-			env->x_scale = env->x_scale / 2;
-			env->y_scale = env->y_scale / 2;
-			env->z_scale = env->z_scale / 2;
+			env->zoom /= 1.1;
+			env->x_scale = env->x_scale / 1.1;
+			env->y_scale = env->y_scale / 1.1;
+			env->z_scale = env->z_scale / 1.1;
 		}
 		wireframe(env);
 	}
