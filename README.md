@@ -3,7 +3,7 @@
 
 
 ## Overview
-For this project, I was tasked with making a wireframe display program that can take a formatted text file holding a topographical map, and display it as I 3D rendering in the form of a wireframe. Unsatisfied with a simple 3D display, I went ahead and implemented a few extra functionalities to make the program a lot more interesting:
+For this project, I was tasked with making a wireframe display program that can take a formatted text file holding a topographical map, and display it as a 3D rendering in the form of a wireframe. Unsatisfied with a simple 3D display, I went ahead and implemented a few extra functionalities to make the program a lot more interesting:
 1. Precise Controls
 >- 360 degree rotation for any view angle.
 >- Zoom to see smaller details or the bigger picture.
