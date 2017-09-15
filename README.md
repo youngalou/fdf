@@ -16,9 +16,9 @@ For this project, I was tasked with making a wireframe display program that can 
 
 ## Install
 - <i class="icon-folder-open"></i> Navigate to the desired directory and run in your shell:
-<kbd>git clone https://github.com/youngalou/fdf.git</kbd>
+`git clone https://github.com/youngalou/fdf.git`
 - <i class="icon-folder-open"></i> Enter the repository you just cloned and run:
-<kbd>make</kbd>
+`make`
 
 
 ## Controls
