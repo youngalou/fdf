@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/20 11:21:20 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/20 11:50:24 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:48:48 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int		key_command(int key, t_env *env)
 		exit(0);
 	if (key >= 123 && key <= 126)
 	{
-		(key == 126) ? env->ay += .25 : 0;
-		(key == 125) ? env->ay -= .25 : 0;
-		(key == 123) ? env->ax += .25 : 0;
-		(key == 124) ? env->ax -= .25 : 0;
+		(key == 126) ? env->ay += .05 : 0;
+		(key == 125) ? env->ay -= .05 : 0;
+		(key == 123) ? env->ax += .05 : 0;
+		(key == 124) ? env->ax -= .05 : 0;
 		wireframe(env);
 	}
 	key_zoom(env, key);
@@ -61,10 +61,10 @@ void	key_translate(t_env *env, int key)
 {
 	if (key == 13 || (key >= 0 && key <= 2))
 	{
-		(key == 13) ? env->y0 -= env->y_scale : 0;
-		(key == 1) ? env->y0 += env->y_scale : 0;
-		(key == 0) ? env->x0 -= env->x_scale : 0;
-		(key == 2) ? env->x0 += env->x_scale : 0;
+		(key == 13) ? env->y0 -= env->y_scale / 2 : 0;
+		(key == 1) ? env->y0 += env->y_scale / 2 : 0;
+		(key == 0) ? env->x0 -= env->x_scale / 2 : 0;
+		(key == 2) ? env->x0 += env->x_scale / 2 : 0;
 		wireframe(env);
 	}
 	if (key == 34 || (key >= 37 && key <= 40))

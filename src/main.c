@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:30:05 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/20 13:58:27 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:44:05 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	open_mlx(t_env *env, char *filename)
 	set_scale(env);
 	env->win = mlx_new_window(env->mlx, env->win_x, env->win_y, filename);
 	wireframe(env);
-	mlx_key_hook(env->win, key_command, env);
+	mlx_hook(env->win, 2, 0, key_command, env);
 	mlx_loop(env->mlx);
 }
 
